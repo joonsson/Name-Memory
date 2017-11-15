@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Name Memory</title>
+    <link rel="stylesheet" type="text/css" media="all" href="../static/css/style.css" th:href="@{/css/style.css}" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:700" rel="stylesheet" />
+    <link rel="SHORTCUT ICON" HREF="../static/images/favicon.ico"/>
+</head>
+
+<body>
+    <div id="page-wrap">
+        <div id="header">
+            <img id="logo" src="../images/academylogo.png" />
+        </div>
+        <div id="title" class="correct">
+            <h1>Name Memory</h1>
+        </div>
+        <div id="scoreField">hej</div>
+        <div id="imageDiv">
+            <img id="image1" class='opaque' />
+            <img id="image2" />
+        </div>
+        <div id="textBox">
+        <div id="aboutText">
+            <p>A simple name memory game about the fall 2017 Java class. The game ends when you've got all names right. Enter
+                your name to start playing. Finish as quickly as possible to get on the highscore, every wrong answer adds
+                10 seconds to your score.</p>
+        </div>
+        <div id="highScore">
+            <h2>Highscore</h2>
+            <p th:text="${highScore0}"></p>
+            <p th:text="${highScore1}"></p>
+            <p th:text="${highScore2}"></p>
+            <p th:text="${highScore3}"></p>
+            <p th:text="${highScore4}"></p>
+        </div>
+        </div>
+        <div id="textField"></div>
+        <div id="buttons">
+            <button id="answer1" class="btn draw-border">Button1</button>
+            <button id="answer2" class="btn draw-border">Button2</button>
+            <button id="answer3" class="btn draw-border">Button3</button>
+            <button id="answer4" class="btn draw-border">Button4</button>
+        </div>
+        <div id="submit">
+            <input type="text" id="nameField" placeholder="Enter your name:" />
+            <button id="submitButton" class="btn draw-border">Submit</button>
+        </div>
+        <div id="again">
+            <button id="againButton" class="btn draw-border">Play Again</button>
+        </div>
+        <div id="footer">
+            <img id="footerLogo" src="../images/java.jpg"/>
+        </div>
+    </div>
+    <script type="text/javascript" src="../static/scripts/memory.js" th:src="@{/scripts/memory.js}"></script>
+</body>
+
+</html>

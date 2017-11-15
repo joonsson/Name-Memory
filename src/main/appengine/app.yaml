@@ -1,0 +1,12 @@
+runtime: java
+env: flex
+
+handlers:
+- url: /.*
+  script: this field is required, but ignored
+
+- url: /images
+  static_dir: static/images
+
+manual_scaling:
+  instances: 1

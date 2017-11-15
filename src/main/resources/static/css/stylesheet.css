@@ -1,0 +1,73 @@
+.hidden {display: none;}
+body {
+	margin: 0;
+	overflow: hidden;
+}
+canvas {
+	min-width: 200px;
+	max-width: 400px;
+	min-height: 200px;
+	max-height: 400px;
+	background-image: white;
+}
+
+p, li {
+	font: 1.0em/1.6em Tahoma, sans-serif;
+	margin-bottom: 10px;
+}
+
+h1 {
+	font: 2.0em Tahoma, sans-serif;
+	color: rgb(139, 10, 245);
+	margin-bottom: 10px;
+}
+
+h2 {
+	font: 1.8em Tahoma, sans-serif;
+	color: green;
+	margin-bottom: 10px;
+}
+
+ul {
+	margin-left: 25px;
+}
+
+img {
+    border: none;
+    align-content: center;
+}
+
+#page-wrap {
+	background: white;
+	min-width: 720px;
+	max-width: 1280px;
+    margin: 10px auto;
+    text-align: center;
+	}
+	#page-wrap #inside {
+		margin: 10px 10px 0px 10px;
+		padding-top: 10px;
+		padding-bottom: 10px;
+	}
+	
+
+#imageDiv {
+	position:relative;
+	align-content: center;
+  }
+  #imageDiv img { 	
+	  position: absolute;
+	-webkit-transition: opacity 1s ease-in-out;
+	-moz-transition: opacity 1s ease-in-out;
+	-o-transition: opacity 1s ease-in-out;
+	transition: opacity 1s ease-in-out;
+	opacity:0;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+	filter: alpha(opacity=0);
+  }
+  
+  #imageDiv img.opaque {
+	opacity:1;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter: alpha(opacity=1);
+  }
