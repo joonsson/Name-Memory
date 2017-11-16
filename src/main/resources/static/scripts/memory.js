@@ -191,8 +191,8 @@ function newQuestion(a1, a2, a3, a4, pic) {
 setInterval(function () {
     time = new Date().getTime();
     var distance = (time - started) + timeBonus;
-    var minutes = Math.floor(questionArray[7] / (1000 * 60));
-    var seconds = Math.floor((questionArray[7] % (1000 * 60)) / 1000);
+    var minutes = Math.floor(distance / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
     scoreField.textContent = minutes + "m " + seconds + "s ";
 }, 1000);
 
