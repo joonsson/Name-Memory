@@ -23,6 +23,16 @@ body {
     background: #ffffff; 
     margin: auto;
 }
+#footer {
+  text-align: center;
+}
+
+#githubLogo {
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 100px;
+}
 
 #title {
     font-size: 20px;
@@ -99,8 +109,10 @@ h2 {
     height: 200px;
 }
 #footerLogo {
-    margin: auto;
-    height: 100px;
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 100px;
 }
 
 #imageDiv img {

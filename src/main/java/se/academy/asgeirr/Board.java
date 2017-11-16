@@ -1,9 +1,6 @@
 package se.academy.asgeirr;
 
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.core.io.WritableResource;
+import org.springframework.core.io.*;
 
 import java.io.*;
 import java.util.*;
@@ -37,12 +34,15 @@ public class Board {
     private String correctAnswer;
     private String lastCorrectAnswer;
     private ResourceLoader resourceLoader;
+    private Highscorelist highscorelist;
 
     public void setResourceLoader(ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
     }
 
-    public Board() {
+    public Board(Highscorelist highScoreList) {
+        this.highscorelist = highScoreList;
+        highScore = this.highscorelist.getHighscoreList();
         CREATED_AT = System.currentTimeMillis();
         startTime = System.currentTimeMillis();
         try {
@@ -88,6 +88,7 @@ public class Board {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        persons = new ArrayList<>(allPersons);
         readHighscore();
         rand = new Random();
         Collections.sort(highScore);
@@ -166,23 +167,7 @@ public class Board {
     }
 
     private void readHighscore() {
-        highScore = new ArrayList<>();
-        try {
-            persons = new ArrayList<>(allPersons);
-            Resource hScore = new ClassPathResource("/static/text/highScore.txt");
-            InputStream inputStream = hScore.getInputStream();
-            BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
-            String s = in.readLine();
-            while (s != null) {
-                Scanner scanner = new Scanner(s);
-                highScore.add(new Highscore(scanner.next(), scanner.nextInt()));
-                s = in.readLine();
-            }
-            inputStream.close();
-            in.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        highScore = highscorelist.getHighscoreList();
     }
 
     private String gameOver() {
@@ -195,21 +180,9 @@ public class Board {
             highScore.add(new Highscore(playerName, time));
             Collections.sort(highScore);
             highScore.remove(highScore.size() - 1);
-            try {
-                WritableResource hScore = (WritableResource) new ClassPathResource("/static/text/highScore.txt");
-                OutputStream outputStream = hScore.getOutputStream();
-                BufferedWriter out = new BufferedWriter(new OutputStreamWriter(outputStream));
-                for (Highscore hs: highScore) {
-                    out.write(hs.getName() + " " + hs.getTime());
-                    out.newLine();
-                }
-                out.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            highscorelist.setHighscoreList(highScore);
         }
-        readHighscore();
-        return " : : : : :g:" + h + ":" + time;
+            return " : : : : :g:" + h + ":" + time;
     }
 
     public void checkTime() {

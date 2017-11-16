@@ -1,5 +1,7 @@
 package se.academy.asgeirr;
 
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,23 +11,28 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 
+
 @Controller
 public class IndexController {
+    private static Highscorelist highScore;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model, HttpSession session) {
-        session.setAttribute("board", new Board());
-        Board board = (Board) session.getAttribute("board");
-        for (int i = 0; i < 5; i++) {
-            model.addAttribute("highScore" + i, board.getHighScore().get(i).getScore());
+        if (highScore == null) {
+            highScore = new Highscorelist();
         }
+            session.setAttribute("board", new Board(highScore));
+            Board board = (Board) session.getAttribute("board");
+            for (int i = 0; i < 5; i++) {
+                model.addAttribute("highScore" + i, board.getHighScore().get(i).getScore());
+            }
         return "index";
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST, produces = "text/plain", params = "name")
     @ResponseBody
     public String startGame(@RequestParam(value = "name", defaultValue = "Unknown") String name, HttpSession session) {
-        session.setAttribute("board", new Board());
+        session.setAttribute("board", new Board(highScore));
         Board board = (Board) session.getAttribute("board");
         board.setPlayerName(name);
         return board.game();

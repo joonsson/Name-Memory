@@ -27,6 +27,7 @@ var time;
 var started;
 var timeBonus;
 var footerLogo = document.getElementById("footerLogo");
+var githubLogo = document.getElementById("githubLogo");
 var swap;
 var httpReq;
 
@@ -42,9 +43,13 @@ nameField.addEventListener("keypress", function (e) {
         submit();
     }
 });
+githubLogo.addEventListener("click", github);
 footerLogo.addEventListener("click", swapImage);
 function restart() {
     location.reload();
+}
+function github() {
+    window.open("https://github.com/joonsson/Name-Memory");
 }
 
 window.onload = init;
