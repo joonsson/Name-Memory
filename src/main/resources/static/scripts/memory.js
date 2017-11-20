@@ -151,7 +151,9 @@ function answerController() {
                 again.classList.remove("hidden");
                 buttonElement.classList.add("hidden");
                 score.innerHTML="";
-                if (questionArray[7] < 10) {
+                if (questionArray[7] == 0) {
+                    textField.innerHTML = "Amazing! You finished with " + questionArray[7] + " wrong answers.";
+                } else if (questionArray[7] < 10) {
                     textField.innerHTML = "Well done! You finished with " + questionArray[7] + " wrong answers.";
                 } else if (questionArray[7] < 20) {
                     textField.innerHTML = "Good job.. I guess.. You finished with " + questionArray[7] + " wrong answers.";
