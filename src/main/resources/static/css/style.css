@@ -2,10 +2,16 @@
   display: none; }
 
 .correct {
-  color: #00AA50; }
+  background: #00AA50; }
 
 .incorrect {
-  color: red; }
+  background: #c80f0f; }
+
+#score {
+  padding-top: 10px; }
+
+#again {
+  padding-bottom: 105px; }
 
 * {
   margin: 0;
@@ -14,9 +20,11 @@
   text-align: center; }
 
 body {
-  padding-top: 100px;
+  padding-top: 10px;
   display: flex;
-  background-color: #00AA50; }
+  background-image: url(../images/academygrupp.jpg);
+  background-color: #00AA50;
+  font-family: 'Roboto', sans-serif; }
 
 #page-wrap {
   min-width: 720px;
@@ -25,31 +33,31 @@ body {
   margin: auto; }
 
 #footer {
-  text-align: center; }
+  text-align: center;
+  align-content: center; }
 
 #githubLogo {
-  display: inline-block;
-  margin-left: auto;
-  margin-right: auto;
+  margin: auto;
   height: 100px; }
 
 #title {
   font-size: 20px;
-  height: 60px; }
+  height: 80px; }
 
 #header {
   height: 200px; }
 
 p, li {
-  font: 1.0em/1.6em Tahoma, sans-serif; }
+  font-family: 'Roboto', sans-serif; }
 
 h1 {
-  font: 2.0em Tahoma, sans-serif;
+  font-family: 'Spectral SC', serif;
+  font-weight: 300;
   color: white;
   background: #00AA50; }
 
 h2 {
-  font: 1.8em Tahoma, sans-serif;
+  font-family: 'Indie Flower', cursive;
   background: #00AA50;
   width: 400px;
   height: 40px;
@@ -57,38 +65,69 @@ h2 {
   color: white; }
 
 #buttons {
-  z-index: 1; }
+  z-index: 1;
+  padding-bottom: 105px; }
 
 #nameField {
-  font: 1.6em Tahoma, sans-serif;
+  font: 700 1.2rem 'Roboto Slab', sans-serif;
   color: #00AA50;
-  height: 40px; }
+  height: 40px;
+  margin-top: 10px; }
 
 #scoreField {
-  height: 40px;
-  font: 1.0em/1.6em Tahoma, sans-serif; }
+  height: 100px;
+  font-family: 'Roboto', sans-serif; }
 
 #textField {
   height: 40px; }
 
+#hstop {
+  margin-top: 10px; }
+
 #highScore {
-  border: solid;
-  border-width: 10px;
-  border-color: #00AA50;
-  max-width: 400px;
+  background-color: white;
+  background-image: url(../images/behappy.jpg);
+  background-size: 500px 290px;
+  background-repeat: no-repeat;
+  background-position: center;
+  max-width: 600px;
   margin: auto;
-  height: 200px;
-  color: black;
-  background: white;
-  margin-top: 50px; }
+  height: 300px;
+  color: black; }
 
 #textBox {
   max-width: 600px;
-  padding: 10px;
+  height: 400px;
   margin: auto;
   width: 80%;
   color: black;
   background: white; }
+
+#aboutText {
+  margin-bottom: 20px; }
+
+#behappy {
+  max-width: 100%;
+  max-height: 160px; }
+
+#klassButtons {
+  height: 150px;
+  margin: auto;
+  text-align: center;
+  padding-bottom: 10px; }
+
+.klassImg {
+  max-height: 150px;
+  max-width: 220px;
+  margin: auto;
+  cursor: pointer; }
+
+.klassbtn {
+  width: 33%;
+  float: left; }
+
+#dotnetButton {
+  padding-top: 40px; }
 
 #imageDiv {
   z-index: 0;
@@ -97,14 +136,19 @@ h2 {
   position: relative;
   margin: auto; }
 
-#logo {
-  height: 200px; }
+#footer {
+  text-align: center;
+  margin: auto;
+  width: 100%; }
 
-#footerLogo {
-  display: inline-block;
+#logo {
+  height: 200px;
+  margin: auto; }
+
+#githubLogo {
   margin-left: auto;
   margin-right: auto;
-  height: 100px; }
+  cursor: pointer; }
 
 #imageDiv img {
   z-index: 0;

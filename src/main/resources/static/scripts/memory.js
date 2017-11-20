@@ -1,50 +1,44 @@
-var FRAME_WIDTH = 1280;
-var FRAME_HEIGHT = 720;
 var buttonElement = document.getElementById("buttons");
 var textField = document.getElementById("textField");
 var scoreField = document.getElementById("scoreField");
+var score = document.getElementById("score");
+var correctField = document.getElementById("correct");
 var imageElement = document.getElementById("imageDiv");
-var enterNameElement = document.getElementById("submit");
+var enterNameElement = document.getElementById("submitField");
+var submitSection = document.getElementById("submit");
 var nameField = document.getElementById("nameField");
 var highScoreElement = document.getElementById("highScore");
-var submitButton = document.getElementById("submitButton");
-var titleElement = document.getElementById("title");
+var bothBtn = document.getElementById("bothButton");
+var javaBtn = document.getElementById("javaButton");
+var dotnetBtn = document.getElementById("dotnetButton");
 var answer1btn = document.getElementById("answer1");
 var answer2btn = document.getElementById("answer2");
 var answer3btn = document.getElementById("answer3");
 var answer4btn = document.getElementById("answer4");
 var againbtn = document.getElementById("againButton");
+var again = document.getElementById("again");
 var image1Element = document.getElementById("image1");
 var image2Element = document.getElementById("image2");
-var aboutText = document.getElementById("aboutText");
+var aboutText = document.getElementById("textBox");
 var wrongAnswers;
 var change;
 var playerName;
-var image;
 var httpRequest;
 var swapto1;
-var time;
 var started;
 var timeBonus;
-var footerLogo = document.getElementById("footerLogo");
 var githubLogo = document.getElementById("githubLogo");
-var swap;
-var httpReq;
+var klass;
 
 answer1btn.addEventListener("click", answer1);
 answer2btn.addEventListener("click", answer2);
 answer3btn.addEventListener("click", answer3);
 answer4btn.addEventListener("click", answer4);
-submitButton.addEventListener("click", submit);
+bothBtn.addEventListener("click", submitBoth);
+javaBtn.addEventListener("click", submitJava);
+dotnetBtn.addEventListener("click", submitCsharp);
 againbtn.addEventListener("click", restart);
-nameField.addEventListener("keypress", function (e) {
-    var key = e.which || e.keyCode;
-    if (key === 13) { // Enter key
-        submit();
-    }
-});
 githubLogo.addEventListener("click", github);
-footerLogo.addEventListener("click", swapImage);
 function restart() {
     location.reload();
 }
@@ -56,17 +50,28 @@ window.onload = init;
 console.ward = function () { }; // what warnings?
 
 function init() {
-    footerLogo.src = "../images/java.jpg";
-    swap = false;
     timeBonus = 0;
     highScoreElement.classList.remove("hidden");
-    againbtn.classList.add("hidden");
-    enterNameElement.classList.remove("hidden");
+    again.classList.add("hidden");
+    submitSection.classList.remove("hidden");
+    enterNameElement.classList.add("hidden");
     buttonElement.classList.add("hidden");
     textField.classList.add("hidden");
     scoreField.classList.add("hidden");
     imageElement.classList.add("hidden");
     wrongAnswers = 0;
+}
+function submitBoth() {
+    klass = "both";
+    submit();
+}
+function submitJava() {
+    klass = "java";
+    submit();
+}
+function submitCsharp() {
+    klass = "csharp";
+    submit();
 }
 function submit() {
     playerName = nameField.value;
@@ -78,7 +83,7 @@ function submit() {
     httpRequest.onreadystatechange = startController;
     httpRequest.open('POST', '');
     httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    httpRequest.send("name=" + encodeURIComponent(playerName));
+    httpRequest.send("name=" + encodeURIComponent(playerName) + "&klass=" + encodeURIComponent(klass));
 }
 function startController() {
     if (httpRequest.readyState === XMLHttpRequest.DONE) {
@@ -87,6 +92,7 @@ function startController() {
             textField.classList.remove("hidden");
             scoreField.classList.remove("hidden");
             highScoreElement.classList.add("hidden");
+            submitSection.classList.add("hidden");
             startGame();
         } else {
             alert('There was a problem with the request.');
@@ -124,32 +130,33 @@ function answerController() {
             questionArray = new Array;
             questionArray = questionString.split(":");
             if (questionArray[5] == "y") {
-                titleElement.classList.remove("incorrect");
-                titleElement.classList.add("correct");
-                titleElement.textContent = "Correct!";
-                textField.textContent = questionArray[6] + " was correct";
+                correctField.classList.remove("incorrect");
+                correctField.classList.add("correct");
+                correctField.innerHTML = "Correct!";
+                textField.innerHTML = questionArray[6] + " was correct";
                 newQuestion(questionArray[0], questionArray[1], questionArray[2], questionArray[3], questionArray[4]);
             } else if (questionArray[5] == "n") {
-                titleElement.classList.remove("correct");
-                titleElement.classList.add("incorrect");
-                titleElement.textContent = "Bad " + playerName + ", that's not their name!";
-                timeBonus += 10000;
                 wrongAnswers++;
-                textField.textContent = questionArray[6] + " was incorrect, the correct answer was " + questionArray[7];
+                score.innerHTML = wrongAnswers + " wrong answers";
+                correctField.classList.remove("correct");
+                correctField.classList.add("incorrect");
+                correctField.innerHTML = "No, that's not their name!";
+                timeBonus += 10000;
+                textField.innerHTML = questionArray[6] + " was incorrect, the correct answer was " + questionArray[7];
                 newQuestion(questionArray[0], questionArray[1], questionArray[2], questionArray[3], questionArray[4]);
             } else if (questionArray[5] == "g") {
-                titleElement.textContent = "Good job!";
-                titleElement.classList.add("correct");
-                titleElement.classList.remove("incorrect");
-                againbtn.classList.remove("hidden");
+                correctField.innerHTML = "Excellent!";
+                correctField.classList.add("correct");
+                correctField.classList.remove("incorrect");
+                again.classList.remove("hidden");
                 buttonElement.classList.add("hidden");
-                scoreField.classList.add("hidden");
-                var min = Math.floor(questionArray[7] / (1000 * 60));
-                var sec = Math.floor((questionArray[7] % (1000 * 60)) / 1000);
-                if (questionArray[6] == "y") {
-                    textField.textContent = "New Highscore! You finished with " + min + "min and " + sec + "sec.";
+                score.innerHTML="";
+                if (questionArray[7] < 10) {
+                    textField.innerHTML = "Well done! You finished with " + questionArray[7] + " wrong answers.";
+                } else if (questionArray[7] < 20) {
+                    textField.innerHTML = "Good job.. I guess.. You finished with " + questionArray[7] + " wrong answers.";
                 } else {
-                    textField.textContent = "You finished with " + min + "min and " + sec + "sec.";
+                    textField.innerHTML = "Do you even know these people? You finished with " + questionArray[7] + " wrong answers.";
                 }
             }
         } else {
@@ -159,8 +166,8 @@ function answerController() {
 }
 
 function startGame() {
-    titleElement.textContent = "You can do it!";
-    enterNameElement.classList.add("hidden");
+    score.innerHTML = wrongAnswers + " wrong answers";
+    correctField.innerHTML = "You can do it!";
     buttonElement.classList.remove("hidden");
     imageElement.classList.remove("hidden");
     questionString = httpRequest.responseText;
@@ -188,20 +195,10 @@ function newQuestion(a1, a2, a3, a4, pic) {
     }
 }
 
-setInterval(function () {
+/*setInterval(function () {
     time = new Date().getTime();
     var distance = (time - started) + timeBonus;
     var minutes = Math.floor(distance / (1000 * 60));
     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
     scoreField.textContent = minutes + "m " + seconds + "s ";
-}, 1000);
-
-function swapImage() {
-    if (swap) {
-        swap = !swap;
-        footerLogo.src = "../images/java.jpg";
-    } else {
-        swap = !swap;
-        footerLogo.src = "../images/chocstraw.png";
-    }
-}
+}, 1000);*/

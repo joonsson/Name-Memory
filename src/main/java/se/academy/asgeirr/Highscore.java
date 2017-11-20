@@ -14,7 +14,7 @@ public class Highscore implements Comparable<Highscore> {
     }
 
     public String getScore() {
-        return name + " " + time/60000 + "min" + " " + (time%60000)/1000 + "sec";
+        return name + " - " + time/60000 + "min" + " " + (time%60000)/1000 + "sec";
     }
 
     public void setName(String name) {

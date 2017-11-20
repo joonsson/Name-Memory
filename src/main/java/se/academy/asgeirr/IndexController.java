@@ -19,18 +19,18 @@ public class IndexController {
         if (highScore == null) {
             highScore = new Highscorelist();
         }
-            session.setAttribute("board", new Board(highScore));
+            /*session.setAttribute("board", new Board(highScore, "both"));
             Board board = (Board) session.getAttribute("board");
             for (int i = 0; i < 5; i++) {
                 model.addAttribute("highScore" + i, board.getHighScore().get(i).getScore());
-            }
+            }*/
         return "index";
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST, produces = "text/plain", params = "name")
+    @RequestMapping(value = "/", method = RequestMethod.POST, produces = "text/plain", params = {"name", "klass"})
     @ResponseBody
-    public String startGame(@RequestParam(value = "name", defaultValue = "Unknown") String name, HttpSession session) {
-        session.setAttribute("board", new Board(highScore));
+    public String startGame(@RequestParam(value = "name", defaultValue = "Unknown") String name, @RequestParam(value = "klass", defaultValue = "both") String klass, HttpSession session) {
+        session.setAttribute("board", new Board(highScore, klass));
         Board board = (Board) session.getAttribute("board");
         board.setPlayerName(name);
         return board.game();

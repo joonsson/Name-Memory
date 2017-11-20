@@ -7,12 +7,7 @@ import java.util.*;
 import java.util.List;
 
 public class Board {
-    private static final int FRAME_WIDTH = 1280;
-    private static final int FRAME_HEIGHT = 720;
     private static final int OPTIONS = 4;
-    private static final int REGULARGAME = 0;
-    private static final int PLAYONCE = 1;
-    private static final int TIMEDGAME = 2;
     private static final int HIGHSCORESIZE = 5;
     private final long CREATED_AT;
     private List<Person> persons;
@@ -33,36 +28,54 @@ public class Board {
     private String correct;
     private String correctAnswer;
     private String lastCorrectAnswer;
-    private ResourceLoader resourceLoader;
     private Highscorelist highscorelist;
+    private String klass;
 
-    public void setResourceLoader(ResourceLoader resourceLoader) {
-        this.resourceLoader = resourceLoader;
-    }
-
-    public Board(Highscorelist highScoreList) {
+    public Board(Highscorelist highScoreList, String klass) {
+        this.klass = klass;
         this.highscorelist = highScoreList;
         highScore = this.highscorelist.getHighscoreList();
         CREATED_AT = System.currentTimeMillis();
         startTime = System.currentTimeMillis();
         try {
+            InputStream inputStream;
+            BufferedReader in;
+            String s;
             allPersons = new ArrayList<>();
-            Resource javatxt = new ClassPathResource("/static/text/java.txt");
-            InputStream inputStream = javatxt.getInputStream();
-            BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
-            //BufferedReader in = new BufferedReader(new FileReader("classpath:static/text/java.txt"));
-            String s = in.readLine();
-            while (s != null) {
-                Scanner scanner = new Scanner(s);
-                String firstName = scanner.next();
-                String lastName = scanner.next();
-                Boolean female = scanner.nextBoolean();
-                allPersons.add(new Person("../images/" + firstName + lastName + ".jpg", firstName, lastName, female));
-                scanner.close();
+            if (klass.equals("java") || klass.equals("both")) {
+                Resource javatxt = new ClassPathResource("/static/text/java.txt");
+                inputStream = javatxt.getInputStream();
+                in = new BufferedReader(new InputStreamReader(inputStream));
                 s = in.readLine();
+                while (s != null) {
+                    Scanner scanner = new Scanner(s);
+                    String firstName = scanner.next();
+                    String lastName = scanner.next();
+                    Boolean female = scanner.nextBoolean();
+                    allPersons.add(new Person("../images/" + firstName + lastName + ".jpg", firstName, lastName, female));
+                    scanner.close();
+                    s = in.readLine();
+                }
+                inputStream.close();
+                in.close();
             }
-            inputStream.close();
-            in.close();
+            if (klass.equals("csharp") || klass.equals("both")) {
+                Resource csharptxt = new ClassPathResource("/static/text/csharp.txt");
+                inputStream = csharptxt.getInputStream();
+                in = new BufferedReader(new InputStreamReader(inputStream));
+                s = in.readLine();
+                while (s != null) {
+                    Scanner scanner = new Scanner(s);
+                    String firstName = scanner.next();
+                    String lastName = scanner.next();
+                    Boolean female = scanner.nextBoolean();
+                    allPersons.add(new Person("../images/" + firstName + lastName + ".jpg", firstName, lastName, female));
+                    scanner.close();
+                    s = in.readLine();
+                }
+                inputStream.close();
+                in.close();
+            }
             femaleNames = new ArrayList<>();
             Resource fNames = new ClassPathResource("/static/text/femaleNames.txt");
             inputStream = fNames.getInputStream();
@@ -83,17 +96,20 @@ public class Board {
                 maleNames.add(s);
                 s = in.readLine();
             }
+            maleNames.remove(0);
+            maleNames.add(0, "Bo");
             inputStream.close();
             in.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
         persons = new ArrayList<>(allPersons);
-        readHighscore();
+        //readHighscore();
         rand = new Random();
         Collections.sort(highScore);
         lastAnswer = "none";
         correct = "n";
+        wrongAnswers = 0;
     }
 
     public String game() {
@@ -148,7 +164,7 @@ public class Board {
             }
             answerBuilder.append(p.getImage());
             checkTime();
-            return answerBuilder.toString() + ":" + correct + ":" + lastAnswer + ":" + lastCorrectAnswer + ":" + time;
+            return answerBuilder.toString() + ":" + correct + ":" + lastAnswer + ":" + lastCorrectAnswer + ":" + wrongAnswers;
         }
     }
 
@@ -173,16 +189,16 @@ public class Board {
     private String gameOver() {
         checkTime();
         String h = "n";
-        readHighscore();
+        /*readHighscore();
         Collections.sort(highScore);
-        if (time < highScore.get(HIGHSCORESIZE - 1).getTime()) {
+        if (klass.equals("both") && time < highScore.get(HIGHSCORESIZE - 1).getTime()) {
             h = "y";
             highScore.add(new Highscore(playerName, time));
             Collections.sort(highScore);
             highScore.remove(highScore.size() - 1);
             highscorelist.setHighscoreList(highScore);
-        }
-            return " : : : : :g:" + h + ":" + time;
+        }*/
+            return " : : : : :g:" + h + ":" + wrongAnswers;
     }
 
     public void checkTime() {
